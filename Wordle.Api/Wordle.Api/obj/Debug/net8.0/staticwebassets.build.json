@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "SIeH6OgwYh7i9sralSofowtzfDwSVtPkz+0DU4b+XM0=",
+  "Source": "Wordle.Api",
+  "BasePath": "_content/Wordle.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
