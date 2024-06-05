@@ -9,7 +9,7 @@
 					Then I used the database to store the user's current coin count, and you start with 1000.<br />
 					Each spin costs 10,20,30,40, or 50 coins, and prizes will be multiplied if you bet higher <br />
 					The odds for each (per reel) and their prizes are:<br />
-					<v-icon class="mr-2">mdi-fire</v-icon>Wild: 10%<br />
+					<v-icon class="mr-2">mdi-fire</v-icon>Wild: 10% - 750 coins<br />
 					<v-icon class="mr-2">mdi-bitcoin</v-icon>Coin: 5% - 1000 coins<br />
 					<v-icon class="mr-2">mdi-star</v-icon>Star: 10% - 500 coins<br />
 					<v-icon class="mr-2">mdi-numeric-7</v-icon>Seven: 15% - 100 coins<br />
