@@ -3,6 +3,15 @@
     <v-text>Tim Final <br />Note: Minor flash warning</v-text>
   </v-container>
   <v-card>
+    <div>
+      <p> Current User : {{ username }}</p>
+    </div>
+    <input
+      type="text"
+      v-model="usernameInput"
+      @keyup.enter="saveUsername"
+      placeholder="Enter your username"
+    />
     <div class="text-container">
       <p>Current Coins: {{ currentCoins }}</p>
       <p :style="{ color: winColor }">You Won: {{ winAmount }}</p>
@@ -22,6 +31,10 @@
       <v-btn color="primary" @click="setSpeed(2)">Normal Mode</v-btn>
       <v-btn color="primary" @click="setSpeed(1)">Slow Mode</v-btn>
     </div>
+    <div class="saveload-buttons-container">
+      <v-btn color="primary" @click="postCoins()">Save</v-btn>
+      <v-btn color="primary" @click="getCoins()">Load</v-btn>
+    </div>
   </v-card>
 </template>
 
@@ -29,13 +42,17 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Symbols } from '~/scripts/symbols';
-
+import Axios from 'axios'
+import type { Player } from "../scripts/player";
+const usernameInput = ref("");
 const router = useRouter();
 const currentCoins = ref(1000);
 const winAmount = ref("0");
 const speed = ref(1000);
 const winColor = ref("white");
 const boxes = ref(["mdi-loading", "mdi-loading", "mdi-loading"]);
+const player = ref<Player>();
+var username = ref("");
 
 function setSpeed(mode: number) {
   switch(mode) {
@@ -168,6 +185,46 @@ function iconForSymbol(symbol: string): string {
   }
 }
 
+function postCoins(){
+  if(username.value == ""){
+    username.value = "Please sign in first"
+    return;
+  }
+  Axios.post("Player/AddPlayer", {
+    Name: username.value,
+    Coins: currentCoins
+  })
+  .then(res => {
+    console.log(res.data);
+  })
+  .catch(err => {
+    console.log("Error" + err);
+  })
+}
+
+async function getCoins(){
+  if(username.value == ""){
+    username.value = "Please sign in first"
+    return;
+  }
+  let url = "/Player/GetPlayer?playername=";
+  url += username;
+  const response = await Axios.get(url);
+  if(response.data == null){
+    var temp = username.value;
+    username.value = "No user data found"
+    await sleep(1000);
+    username.value = temp;
+    return;
+  }
+  player.value = response.data;
+  currentCoins.value = player.value?.coins as number;
+}
+
+function saveUsername(){
+  username.value = usernameInput.value;
+}
+
 </script>
 
 <style scoped>
@@ -194,7 +251,7 @@ function iconForSymbol(symbol: string): string {
   text-align: center;
 }
 
-.buttons-container, .speed-buttons-container {
+.buttons-container, .speed-buttons-container, .saveload-buttons-container {
   display: flex;
   justify-content: center;
   margin-top: 10px;
