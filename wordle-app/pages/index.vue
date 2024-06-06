@@ -12,6 +12,7 @@
       @keyup.enter="saveUsername"
       placeholder="Enter your username"
     />
+    <p> {{ errorMessage }}</p>
     <div class="text-container">
       <p>Current Coins: {{ currentCoins }}</p>
       <p :style="{ color: winColor }">You Won: {{ winAmount }}</p>
@@ -53,6 +54,7 @@ const winColor = ref("white");
 const boxes = ref(["mdi-loading", "mdi-loading", "mdi-loading"]);
 const player = ref<Player>();
 const busy = ref(false);
+const errorMessage = ref("");
 var username = ref("");
 
 function setSpeed(mode: number) {
@@ -74,7 +76,7 @@ function setSpeed(mode: number) {
 
 async function spin(bet: number) {
   if (bet > currentCoins.value) {
-    winAmount.value = "Out of Coins :(";
+    errorMessage.value = "Error: Out of Coins :(";
     return;
   }
   busy.value = true;
@@ -190,7 +192,7 @@ function iconForSymbol(symbol: string): string {
 
 function postCoins(){
   if(username.value == ""){
-    username.value = "Please sign in first"
+    errorMessage.value = "Please sign in first"
     return;
   }
   Axios.post("Player/AddPlayer", {
@@ -201,23 +203,21 @@ function postCoins(){
     console.log(res.data);
   })
   .catch(err => {
-    console.log("Error" + err);
+    errorMessage.value = err;
   })
+  errorMessage.value = "Saved";
 }
 
 async function getCoins(){
   if(username.value == ""){
-    username.value = "Please sign in first"
+    errorMessage.value = "Please sign in first"
     return;
   }
   let url = "/Player/GetPlayer?playername=";
   url += username;
   const response = await Axios.get(url);
   if(response.data == null){
-    var temp = username.value;
-    username.value = "No user data found"
-    await sleep(1000);
-    username.value = temp;
+    errorMessage.value = "No user data found"
     return;
   }
   player.value = response.data;
