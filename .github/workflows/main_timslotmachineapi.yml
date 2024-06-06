@@ -34,7 +34,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{runner.temp}}}/myapp
+        run: dotnet publish -c Release -o ${{runner.temp}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
