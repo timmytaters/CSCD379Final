@@ -213,7 +213,7 @@ async function getCoins(){
     errorMessage.value = "Please sign in first"
     return;
   }
-  let url = "/Player/GetPlayer?playername=";
+  let url = "/Player/Player?playerName=";
   url += username;
   const response = await Axios.get(url);
   if(response.data == null){
