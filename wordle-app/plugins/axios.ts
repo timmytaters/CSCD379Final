@@ -8,7 +8,7 @@ export default defineNuxtPlugin(() => {
     ) {
       Axios.defaults.baseURL = "https://localhost:7108/";
     } else {
-      Axios.defaults.baseURL = "TODO";
+      Axios.defaults.baseURL = "https://timslotmachineapi.azurewebsites.net";
     }
   }
 })

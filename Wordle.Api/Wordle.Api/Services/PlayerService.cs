@@ -19,9 +19,6 @@ public class PlayerService(WordleDbContext Db)
 
 	    if (existingPlayer != null)
 	    {//Name, GameCount, AverageAttempts, AverageSecondsPerGame
-			playerDto.GameCount = existingPlayer.GameCount + 1;
-            playerDto.AverageAttempts = (((existingPlayer.AverageAttempts * existingPlayer.GameCount) + playerDto.AverageAttempts)/ playerDto.GameCount);
-		    playerDto.AverageSecondsPerGame = (((existingPlayer.AverageSecondsPerGame * existingPlayer.GameCount) + playerDto.AverageSecondsPerGame)/ playerDto.GameCount);
 			Db.Players.Entry(existingPlayer).CurrentValues.SetValues(playerDto);
 	    }
 	    else
@@ -29,9 +26,7 @@ public class PlayerService(WordleDbContext Db)
 		    Player player = new()
 		    {
 			    Name = playerDto.Name,
-			    GameCount = playerDto.GameCount,
-			    AverageAttempts = playerDto.AverageAttempts,
-			    AverageSecondsPerGame = playerDto.AverageSecondsPerGame
+			    Coins = playerDto.Coins,
 		    };
 		    await Db.Players.AddAsync(player);
 	    }
@@ -42,6 +37,6 @@ public class PlayerService(WordleDbContext Db)
     
     public async Task<Player[]> GetTopPlayers(int numberOfPlayers)
     {
-        return await Db.Players.OrderBy(p => p.AverageAttempts).Take(numberOfPlayers).ToArrayAsync();
+        return await Db.Players.OrderBy(p => p.Coins).Take(numberOfPlayers).ToArrayAsync();
     }
 }

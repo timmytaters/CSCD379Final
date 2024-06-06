@@ -13,18 +13,14 @@
 						<tr>
 							<th>Rank</th>
 							<th>Name</th>
-							<th>Average Guesses</th>
-							<th>Number of Games</th>
-							<th>Average Time</th>
+							<th>Coins</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="(player, index) in players" :key="player.playerId">
 							<td>{{ index + 1 }}</td>
 							<td>{{ player.name }}</td>
-							<td>{{ player.averageAttempts }}</td>
-							<td>{{ player.gameCount }}</td>
-							<td>{{ player.averageSecondsPerGame }} sec.</td>
+							<td>{{ player.coins }}</td>
 						</tr>
 					</tbody>
 				</v-table>
