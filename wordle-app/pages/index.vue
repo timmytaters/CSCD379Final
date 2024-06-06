@@ -20,11 +20,11 @@
       <v-icon class="box" v-for="(icon, index) in boxes" :key="index">{{ icon }}</v-icon>
     </div>
     <div class="buttons-container">
-      <v-btn color="primary" @click="spin(10)">Bet 10</v-btn>
-      <v-btn color="primary" @click="spin(20)">Bet 20</v-btn>
-      <v-btn color="primary" @click="spin(30)">Bet 30</v-btn>
-      <v-btn color="primary" @click="spin(40)">Bet 40</v-btn>
-      <v-btn color="primary" @click="spin(50)">Bet 50</v-btn>
+      <v-btn color="primary" @click="spin(10)" :disabled="busy">Bet 10</v-btn>
+      <v-btn color="primary" @click="spin(20)" :disabled="busy">Bet 20</v-btn>
+      <v-btn color="primary" @click="spin(30)" :disabled="busy">Bet 30</v-btn>
+      <v-btn color="primary" @click="spin(40)" :disabled="busy">Bet 40</v-btn>
+      <v-btn color="primary" @click="spin(50)" :disabled="busy">Bet 50</v-btn>
     </div>
     <div class="speed-buttons-container">
       <v-btn color="primary" @click="setSpeed(3)">Fast Mode</v-btn>
@@ -52,6 +52,7 @@ const speed = ref(1000);
 const winColor = ref("white");
 const boxes = ref(["mdi-loading", "mdi-loading", "mdi-loading"]);
 const player = ref<Player>();
+const busy = ref(false);
 var username = ref("");
 
 function setSpeed(mode: number) {
@@ -76,6 +77,7 @@ async function spin(bet: number) {
     winAmount.value = "Out of Coins :(";
     return;
   }
+  busy.value = true;
   currentCoins.value -= bet;
   boxes.value[0] = "mdi-loading";
   boxes.value[1] = "mdi-loading";
@@ -93,6 +95,7 @@ async function spin(bet: number) {
   currentCoins.value += win * bet;
   winAmount.value = (win * bet).toString();
   flashWin(win);
+  busy.value = false;
 }
 
 function checkResult(s1: string, s2: string, s3: string) {
