@@ -11,7 +11,7 @@ public class PlayerController(PlayerService playerService) : ControllerBase
 {
 
     [HttpGet("Player")]
-    public async Task<Player?> GetPlayer(string playerName = "Guest")
+    public async Task<Player?> GetPlayer(string playerName)
     {
         return await playerService.GetPlayer(playerName) ?? null;
     }

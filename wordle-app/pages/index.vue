@@ -197,7 +197,7 @@ function postCoins(){
   }
   Axios.post("Player/AddPlayer", {
     Name: username.value,
-    Coins: currentCoins
+    Coins: currentCoins.value
   })
   .then(res => {
     console.log(res.data);
@@ -214,7 +214,7 @@ async function getCoins(){
     return;
   }
   let url = "/Player/Player?playerName=";
-  url += username;
+  url += username.value;
   const response = await Axios.get(url);
   if(response.data == null){
     errorMessage.value = "No user data found"
